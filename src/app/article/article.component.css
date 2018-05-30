@@ -1,0 +1,66 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);
+
+h1 {
+   font-size: 250%
+}
+p {
+  font-size: 140%;
+  line-height: 150%;
+  color: #333;
+}
+.slide {
+  position: relative;
+  /*
+  min-height: 50vh;
+  max-height: 60vh;*/
+  width: 100vw;
+  box-sizing: border-box;
+  box-shadow: 0 -1px 10px rgba(0, 0, 0, .7);
+	transform-style: inherit;
+}
+.container {
+  padding: 10px;
+  width: 100%;
+  background: #fff;
+  z-index: 10;
+}
+
+.title {
+  width: 45%;
+  padding: 5%;
+  z-index: 10;
+  -webkit-text-stroke: 2px white;
+  
+  font-size: xx-large;
+  font-weight: bolder;
+}
+
+.slide, .slide:before {
+  background: 50% 50% / cover;  
+}
+
+.header {
+  text-align: center;
+  font-size: 175%;
+  color: #fff;
+  text-shadow: 0 2px 2px #000;
+}
+
+#title h1 {
+ transform: translateZ(.25px) scale(.75);
+ transform-origin: 50% 100%;
+}
+
+#slide1 {
+  /*background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest?cb=20180316141550");*/
+  height: 20vh;
+  transform: translateZ(-1px) scale(2);
+  z-index: -1;
+  background-size: 40vh;
+}
+
+
+
+#slide{
+  z-index:10;
+}

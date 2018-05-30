@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col s6 m7 l6" *ngFor="let article of articales">
+      <div class="card">
+        <div class="card-image">
+          <img src={{article.pic}}>
+          <span class="card-title">{{article.title}}</span>
+        </div>
+        <div class="card-content">
+          <p>{{article.text}}</p>
+        </div>
+        <div class="card-action">
+          <a routerLink="/article/{{article.id}}">This is a link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
