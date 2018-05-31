@@ -9,16 +9,19 @@ p {
   color: #333;
 }
 .slide {
-  position: relative;
-  /*
-  min-height: 50vh;
-  max-height: 60vh;*/
+
+  position: fixed;
+  top: 10vh;
+  background: 50% 50% / cover;
+  right: 0;
+  height: 100vh;
   width: 100vw;
   box-sizing: border-box;
   box-shadow: 0 -1px 10px rgba(0, 0, 0, .7);
-	transform-style: inherit;
+
+  z-index: -1;
 }
-.container {
+.artcltxt {
   padding: 10px;
   width: 100%;
   background: #fff;
@@ -33,34 +36,4 @@ p {
   
   font-size: xx-large;
   font-weight: bolder;
-}
-
-.slide, .slide:before {
-  background: 50% 50% / cover;  
-}
-
-.header {
-  text-align: center;
-  font-size: 175%;
-  color: #fff;
-  text-shadow: 0 2px 2px #000;
-}
-
-#title h1 {
- transform: translateZ(.25px) scale(.75);
- transform-origin: 50% 100%;
-}
-
-#slide1 {
-  /*background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/1/11/Avengers_Infinity_war_poster.jpeg/revision/latest?cb=20180316141550");*/
-  height: 20vh;
-  transform: translateZ(-1px) scale(2);
-  z-index: -1;
-  background-size: 40vh;
-}
-
-
-
-#slide{
-  z-index:10;
 }
