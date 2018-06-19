@@ -3,7 +3,6 @@ import { Article } from "../article";
 import { ArticleService } from "../article.service";
 import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
-import { ParallaxModule, ParallaxConfig } from '../../../node_modules/ngx-parallax'
 
 
 @Component({
@@ -30,7 +29,10 @@ export class ArticleComponent implements OnInit {
   }
 
   getAtricle(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    
+    let id: String;
+    id = this.route.snapshot.paramMap.get('id');
+
     this.articleService.getArticleById(id).subscribe(
       articl => this.articl = articl
     );

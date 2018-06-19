@@ -6,3 +6,16 @@
     box-shadow: 0 0 20px rgba(0,0,0, .5);    
     z-index: 100;
 }
+
+.button_delete {
+    float: left;
+}
+
+i {
+    cursor: pointer;
+    color: #ffab40;
+}
+
+i:hover {
+    opacity: 0.5;
+}

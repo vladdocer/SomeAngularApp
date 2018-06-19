@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Создание статьи</h1>
+  <h2>Введите название статьи</h2>
+  <label>title:
+    <input [ngClass]="{'wrong_imput_field': WrongDataInput() }" #title placeholder="title"/>
+  </label>
+  <h2>Введите текст статьи</h2>
+  <label>text:
+    <textarea #text id="textarea1" class="materialize-textarea"></textarea>
+  </label>
+  <h2>Вставьте ссылку на обложку статьи</h2>
+  <label>URL:
+    <input #pic placeholder="img"/>
+  </label>
+  <button class="waves-effect waves-light btn" (click)="submit(title.value, text.value, pic.value)">Submit</button>
+</div>

@@ -11,7 +11,7 @@ import { ArticleService } from "../article.service";
 export class HomePageComponent implements OnInit {
   
   constructor(private articleService: ArticleService) { }
-  articales: Article[];
+  articles: Article[];
 
   ngOnInit() {
     this.getAtricles();
@@ -19,8 +19,16 @@ export class HomePageComponent implements OnInit {
 
   getAtricles(): void {
     this.articleService.getArticles().subscribe(
-      articles => this.articales = articles
+      articles => this.articles = articles
     );
   }
+  
+  deleteArticle(id:String): void{
+    this.articles = this.articles.filter(a => a._id !== id);
+    this.articleService.deleteArticle(id).subscribe(res =>{
+      console.log('Article sucsessfully deleted!')
+    }
 
+    );
+  }
 }
