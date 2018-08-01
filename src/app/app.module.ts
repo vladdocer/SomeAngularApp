@@ -12,6 +12,8 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ParallaxModule, ParallaxConfig } from '../../node_modules/ngx-parallax';
 import { CreateArticleComponent } from './create-article/create-article.component';
 
+
+
 const routes = [
   {path:"", component: HomePageComponent},
   {path:"article/:id", component: ArticleComponent},
@@ -33,7 +35,7 @@ const routes = [
     RouterModule.forRoot(routes),
     ParallaxModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     ArticleService

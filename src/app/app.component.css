@@ -4,4 +4,7 @@
     background: #fff;
     z-index: 10;
   }
-  
+
+nav {
+  margin-bottom: 30px;
+}
