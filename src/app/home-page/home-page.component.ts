@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { Article } from "../article";
 import { ArticleService } from "../article.service";
+import { AuthService } from "../services/auth.service";
 
 
 @Component({
@@ -10,8 +11,8 @@ import { ArticleService } from "../article.service";
 })
 export class HomePageComponent implements OnInit {
   
-  constructor(private articleService: ArticleService) { }
-  articles: Article[];
+  constructor(private articleService: ArticleService, private authService: AuthService) { }
+  articles: Article[]; 
 
   ngOnInit() {
     this.getAtricles();
@@ -19,16 +20,15 @@ export class HomePageComponent implements OnInit {
 
   getAtricles(): void {
     this.articleService.getArticles().subscribe(
-      articles => this.articles = articles
+      articles => {this.articles = articles;
+      console.log(this.articles);}
     );
   }
   
-  deleteArticle(id:String): void{
-    this.articles = this.articles.filter(a => a._id !== id);
+  deleteArticle(id): void {
     this.articleService.deleteArticle(id).subscribe(res =>{
       console.log('Article sucsessfully deleted!')
-    }
-
-    );
+    });
+    this.articles = this.articles.filter(x => x._id != id);
   }
 }

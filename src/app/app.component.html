@@ -2,18 +2,54 @@
 
 <nav class="red darken-4" role="navigation">
   <div class="nav-wrapper container">
-    <a id="logo-container" href="#" class="brand-logo">Logo</a>
+    <a id="logo-container" href="#" class="brand-logo">SuperNews</a>
     <ul class="right hide-on-med-and-down">
       <li><a href="#">Главная</a></li>
-      <li><a routerLink="/createarticle">Посты</a></li>
-      <li><a href="#">Новости</a></li>
+      <li *ngIf="authService.isLoggedIn()"><a routerLink="/createarticle">Посты</a></li>
+
       <li><a href="#">Контакты</a></li>
+      <li>
+        <a *ngIf="authService.isLoggedIn()">
+          <img [src]="authService.photoUrl()" class="circle responsive-img" alt="user photo" />
+        </a>
+        <a href="" *ngIf="!authService.isLoggedIn()" routerLink="/login">Войти</a>
+        <div class="user-info-box" *ngIf="authService.isLoggedIn()">
+          <div class="user-info-bar">
+            <div class="user-photo">
+              <img [src]="authService.photoUrl()" class="circle responsive-img" />
+            </div>
+            <div class="user-info-content">
+              <p>{{authService.displayUserName()}}</p>
+            </div>
+          </div>
+
+          <div class="user-exit">
+            <a (click)="authService.logout()">Выйти</a>
+          </div>
+        </div>
+      </li>
     </ul>
 
     <ul id="nav-mobile" class="sidenav">
+      <li>
+        <a href="" *ngIf="!authService.isLoggedIn()" routerLink="/login">Войти</a>
+        <div class="" *ngIf="authService.isLoggedIn()">
+          <div class="user-info-bar">
+            <div class="user-photo">
+              <img [src]="authService.photoUrl()" class="circle responsive-img" />
+            </div>
+            <div class="user-info-content">
+              <p>{{authService.displayUserName()}}</p>
+            </div>
+          </div>
+
+          <div class="user-exit">
+            <a (click)="authService.logout()">Выйти</a>
+          </div>
+        </div>
+      </li>
       <li><a href="#">Главная</a></li>
       <li><a routerLink="/createarticle">Посты</a></li>
-      <li><a href="#">Новости</a></li>
       <li><a href="#">Контакты</a></li>
     </ul>
     <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -43,11 +79,8 @@
 
   <div class="footer-copyright red darken-3">
     <div class="container">
-    © 2018 Copyright
-    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+      © 2018 By Ivashchenko Vlad
     </div>
   </div>
 
 </footer>
-
-

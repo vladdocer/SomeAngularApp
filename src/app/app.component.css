@@ -8,3 +8,49 @@
 nav {
   margin-bottom: 30px;
 }
+a {
+  max-height: 64px;
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 50px;
+  max-height: 50px;
+  margin-top: 7px;
+  padding: 3px;
+}
+.user-info-box {
+  background-color: white;
+  box-shadow: 0px 0px 5px gray;
+  position: absolute;  
+  visibility: hidden;
+  color: black;
+  z-index: 10;
+  min-width: 200px;
+  max-width: 1000px;
+  max-height: 200px;
+}
+.user-info-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.user-info-content {
+  padding: 10px;
+  line-height: 30px;
+  color: black;
+}
+.user-photo {
+  max-width: 100%;
+  max-height: 100%;
+}
+.user-exit a{
+  color: black;
+  text-align: center;
+  line-height: 40px;
+  border-top: 1px solid darkgray;
+}
+
+li:hover >div{
+  visibility: visible;
+}

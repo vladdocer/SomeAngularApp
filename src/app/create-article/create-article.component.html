@@ -1,33 +1,34 @@
-<div class="container">
-  <h1>Создание статьи</h1>
-  <h2>Введите название статьи</h2>
-  <label>title:
-    <input [ngClass]="{'wrong_imput_field': WrongDataInput() }" #title placeholder="title"/>
-  </label>
-  <h2>Введите текст статьи</h2>
-  <label>text:
-    <textarea #text id="textarea1" class="materialize-textarea"></textarea>
-  </label>
-  <h2>Вставьте ссылку на обложку статьи</h2>
-  <label>URL:
-    <input #pic placeholder="img"/>
-  </label>
-  <button class="waves-effect waves-light btn" 
-    (click)="submit(title.value, text.value, pic.value); title.value=''; text.value=''; pic.value=''">
-    Submit
-  </button>
+<div class="alert-message" [ngClass]="{'open': this.isopen}">
+  <h4>You succesfully created an article!</h4>
 </div>
 
-<div id="drop-area">
-  <form class="my-form">
-    <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-    <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-    <label class="button" for="fileElem">Select some files</label>
-  </form>
-  <progress id="progress-bar" max=100 value=0></progress>
-  <div id="gallery"></div>
-</div>
+<div [ngClass]="{'blur': this.isopen}">
+  <div class="container">
+    <h1>{{this.headTitle}}</h1>
+    <h3>Введите название статьи</h3>
+    <label>title:
+      <input #title [ngClass]="{'wrong_imput_field': WrongDataInput() }" [(ngModel)]="article.title" placeholder="title" />
+    </label>
+    <h3>Введите текст статьи</h3>
+    <label>text:
+      <textarea #text id="textarea1" class="materialize-textarea" [(ngModel)]="article.text"></textarea>
+    </label>
+    <h3>Вставьте ссылку на обложку статьи</h3>
+    <label>URL:
+      <input #pic placeholder="img" [(ngModel)]="article.pic" />
+    </label>
+    <button class="waves-effect waves-light btn" (click)="submit(); title.value=''; text.value=''; pic.value=''">
+      Submit
+    </button>
+  </div>
 
-<aside class="alert-message" [ngClass]="{'open': this.isopen}">
-  <p class="container">Way to go, You performed a successful action!</p>
-</aside>
+  <div id="drop-area" (drop)="handleDrop($event)" [ngClass]="{'highlight': this.ishighlight}">
+    <form class="my-form">
+      <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+      <input type="file" id="fileElem" multiple accept="image/*" (change)="handleDrop($event)">
+      <label class="button" for="fileElem">Select some files</label>
+    </form>
+    <progress id="progress-bar" max=100 value=0></progress>
+    <div #gallery id="gallery" class="gallery"></div>
+  </div>
+</div>

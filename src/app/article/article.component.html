@@ -1,12 +1,23 @@
-<div class="slide" [style.background-image]="'url(' + articl.pic + ')'">
-</div>
+<!--<div class="slide" [style.background-image]="'url(' + articl?.pic + ')'|safeStyle"></div>-->
+<div class="blurslide" [style.background-image]="'url(' + articl?.pic + ')'|safeStyle"></div>
 
 <div class="title">
-  <h1>{{articl.title}}</h1>
+  <h1>{{articl?.title}}</h1>
 </div>
 
 <div class="artcltxt">
+  <div *ngIf="articleDeleted" class="deleteMessage">Статья удалена</div>
   <div class="container">
-    <p>{{articl.text}}</p>
+    <div class="button_bar row" *ngIf="authService.isLoggedIn()"> 
+        <div class="button_edit col">
+         <a routerLink="/createarticle/{{articl?._id}}">
+            <i class="material-icons">create</i>
+          </a>
+        </div>
+        <div class="button_delete col">
+          <i class="material-icons" (click)="deleteArticle()">delete</i>
+        </div>
+    </div>
+    <p>{{articl?.text}}</p>
   </div>
 </div>

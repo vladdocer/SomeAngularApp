@@ -1,18 +1,25 @@
 <div class="container">
   <div class="row">
-    <div class="col s6 m7 l6" *ngFor="let article of articles">
-      <div class="card">
-        <div class="card-image">
-          <img src={{article.pic}}>
+    <div class="col s8 m8 l4 offset-m2 offset-s2" *ngFor="let article of articles">
+      <div class="card" >
+        <div class="card-image" routerLink="/article/{{article._id}}">
+          <img [src]="article.pic|safeUrl" />
           <span class="card-title">{{article.title}}</span>
         </div>
         <div class="card-content">
-          <p>{{article.text}}</p>
+          <p>{{article.text | shortArticleString}}</p>
         </div>
         <div class="card-action">
-          <a routerLink="/article/{{article._id}}">This is a link</a>
-          <div class="button_delete" (click)='deleteArticle(article._id)'>
-            <i class="material-icons">delete</i>
+          <a routerLink="/article/{{article._id}}">Читать</a>
+          <div class="buttonBar" *ngIf="authService.isLoggedIn()">
+            <div class="buttonDelete" (click)='deleteArticle(article._id)'>
+              <i class="material-icons">delete</i>
+            </div>
+            <div class="buttonEdit">
+              <a id="buttonEditA" routerLink="/createarticle/{{article._id}}">
+                <i class="material-icons">create</i>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -1,3 +1,8 @@
+@media screen and (max-width: 1100px) and (min-width:893px){
+    .card-title{
+        font-size: 2vw;
+    } 
+}
 .card {
     transition: 200ms all;
 }
@@ -6,16 +11,40 @@
     box-shadow: 0 0 20px rgba(0,0,0, .5);    
     z-index: 100;
 }
-
-.button_delete {
+.card-image {
+    max-height: 200px;
+}
+.card-image img{
+    max-height: 200px;
+    max-width: 100%;
+    min-height: 120px;
+}
+.buttonBar {
     float: right;
 }
-
+.buttonDelete {
+    display: inline;
+}
+.buttonEdit {
+    display: inline;    
+}
+#buttonEditA {
+    margin-right: 0;
+}
+.card-context {
+    max-height: 150px;
+}
+.card-title{
+    padding: auto;
+    width: 100%;
+    max-height: 100%;
+    text-align: left;
+    background-image: linear-gradient(rgba(0,0,0,0), rgb(0,0,0, 0.45));
+}
 i {
     cursor: pointer;
     color: #ffab40;
 }
-
 i:hover {
     opacity: 0.5;
 }

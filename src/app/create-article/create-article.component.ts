@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Article } from "../article";
+import { ActivatedRoute } from "@angular/router";
 import { ArticleService } from "../article.service";
+import { AngularFireStorage } from '@angular/fire/storage';
+import { when } from 'q';
 
 @Component({
   selector: 'app-create-article',
@@ -9,46 +12,47 @@ import { ArticleService } from "../article.service";
 })
 export class CreateArticleComponent implements OnInit {
 
-  constructor(  
-    private articleService: ArticleService
+  @ViewChild("gallery") gallery: ElementRef;
+  @ViewChild("title") title: ElementRef;
 
-  ) {}
+  constructor(
+    private route: ActivatedRoute,
+    private articleService: ArticleService,
+    private _renderer: Renderer2,
+    private storage: AngularFireStorage
+  ) { }
+
+  
   private article: Article;
+  private headTitle: String;
   private isopen: boolean;
   private ishighlight: boolean;
-  
+  private isNewArticle: boolean;
+  private fileList: File[];
+
   private uploadProgress = []
   private progressBarValue: number;
-
- 
 
   initializeProgress(numFiles) {
     this.progressBarValue = 0;
     this.uploadProgress = []
-  
-    for(let i = numFiles; i > 0; i--) {
+
+    for (let i = numFiles; i > 0; i--) {
       this.uploadProgress.push(0)
     }
   }
 
- 
-
-  handleFiles(files){
-    files = [...files];
-    this.initializeProgress(files.length);
-    files.forEach(this.uploadFile);
-    files.forEach(this.previewFile);
+  appendImg(result){
+    const img = this._renderer.createElement('img');
+    img.src = result;
+    this._renderer.appendChild(this.gallery.nativeElement, img);
   }
-
   //Showing minified pic of uploading image
-  previewFile(file) {
-    let reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onloadend = function() {
-      let img = document.createElement('img')
-      img.src = reader.result
-      document.getElementById('gallery').appendChild(img)
-    }
+  previewGallary(f){
+    this.isopen;
+    const reader = new FileReader();
+    reader.readAsDataURL(f);
+    reader.onloadend= x => {this.appendImg(reader.result)};
   }
 
   //Update progress bar of upload
@@ -60,81 +64,94 @@ export class CreateArticleComponent implements OnInit {
   }
 
   //Uploading files to CLOUDINARY
-  uploadFile(file, i) {
-    var url = 'https://api.cloudinary.com/v1_1/YOU/image/upload'
-    var xhr = new XMLHttpRequest()
-    var formData = new FormData()
-    xhr.open('POST', url, true)
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-  
-    // Update progress (can be used to show progress indicator)
-    xhr.upload.addEventListener("progress", e => {
-      this.updateProgress(i, (e.loaded * 100.0 / e.total) || 100);
-    })
-  
-    xhr.addEventListener('readystatechange', e => {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        this.updateProgress(i, 100) // <- Add this
-      }
-      else if (xhr.readyState == 4 && xhr.status != 200) {
-        // Error. Inform the user
-      }
-    })
-  
-    formData.append('upload_preset', 'YOU')
-    formData.append('file', file)
-    xhr.send(formData)
+  uploadFile(file: File, i) { 
+    const filePath = '/img/' + file.name;
+    const task = this.storage.upload(filePath, file);
   }
- 
-  preventDefaults (e) {
+
+  preventDefaults(e) {
     e.preventDefault()
     e.stopPropagation()
   }
 
-  submit(title: string, text: string, pic: string){
-    if (title == "") {
+  submit() {
+    if (this.article.title == "") {
       document.getElementById('firstname').style.borderColor = "red";
+      return;
     }
-    const art = new Article();
-    art.title = title;
-    art.text = text;
-    art.pic = pic;
     this.isopen = true;
-    this.articleService.postArticle(art).subscribe((res) => {
-      console.log("OK article created, id:"+res["data"]["_id"]);
-    });
+    if (this.fileList) {
+      this.fileList.forEach((f,i) => this.uploadFile(f,i));
+    }
+    if (this.isNewArticle){
+      this.articleService.postArticle(this.article).subscribe(res => 
+        console.log("OK article created, id:" + res["data"]["_id"])
+      );
+    } else{
+      this.articleService.updateArticle(this.article).subscribe(res => 
+        console.log("OK article updated, id:" + res["data"]["_id"])
+      );
+    }
     
   }
 
-  WrongDataInput(): boolean{
-
+  WrongDataInput(): boolean {
     return true;
   }
 
+  handleFiles(files: File[]) {
+    this.initializeProgress(files.length);
+    files.forEach(f => this.previewGallary(f));
+  }
 
+  handleDrop(e: DragEvent) {
+    let dt = e.dataTransfer;
+    this.fileList = Array.from(dt.files);
+    this.handleFiles(this.fileList);
+  }
+
+  getArticle(): void {
+    let id: String;
+    id = this.route.snapshot.paramMap.get('id');
+
+    this.articleService.getArticleById(id).subscribe(
+      article => this.article = article
+    );
+  }
 
   ngOnInit() {
-    this.article = new Article();
-    this.article.title = " ";
-    this.article.text = " ";
-    this.article.pic = " ";
+    //проверяем на наличие вошедших параметров
+    if(this.route.snapshot.paramMap.get('id')) {
+      this.article = new Article();
+      this.getArticle();
+      this.isNewArticle = false;
+      this.headTitle = "Редактирование статьи";
+    }
+    else {
+      this.article = new Article();
+      this.article.title = " ";
+      this.article.text = " ";
+      this.article.pic = " ";
+      this.isNewArticle = true;
+      this.headTitle = "Создание статьи";
+    }
+    
+    
     this.isopen = false;
     this.ishighlight = false;
     let dropArea = document.getElementById('drop-area');
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    /*['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
       dropArea.addEventListener(eventName, this.preventDefaults, false)
+    });*/
+    ['dragleave', 'drop', 'dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, event => this.preventDefaults(event), false)
     });
     ['dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, event => this.ishighlight=false , false)
+      dropArea.addEventListener(eventName, event => this.ishighlight = false, false)
     });
     ['dragenter', 'dragover'].forEach(eventName => {
-      dropArea.addEventListener(eventName, event => this.ishighlight=true, false)
+      dropArea.addEventListener(eventName, event => this.ishighlight = true, false)
     });
-    dropArea.addEventListener('drop', handleDrop, false)
-    function handleDrop(e) {
-      var dt = e.dataTransfer;
-      var files = dt.files;  
-      this.handleFiles(files);
-    } 
+    
   }
 }

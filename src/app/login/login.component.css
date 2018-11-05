@@ -1,0 +1,13 @@
+.button-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button-group button {
+    margin-bottom: 10px;
+}
+#but {
+    margin: auto;
+}
