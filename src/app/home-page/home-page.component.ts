@@ -26,9 +26,9 @@ export class HomePageComponent implements OnInit {
   }
   
   deleteArticle(id): void {
-    this.articleService.deleteArticle(id).subscribe(res =>{
+    this.articleService.deleteArticle(id).then(res =>{
       console.log('Article sucsessfully deleted!')
-    });
+    }).catch(e => console.log(e));
     this.articles = this.articles.filter(x => x._id != id);
   }
 }

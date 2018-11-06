@@ -38,9 +38,9 @@ export class ArticleComponent implements OnInit {
     );
   }
   deleteArticle(): void{    
-    this.articleService.deleteArticle(this.articl._id).subscribe(res =>{
+    this.articleService.deleteArticle(this.articl._id).then(res =>{
       console.log('Article sucsessfully deleted!')
-    });
+    }).catch(e => console.log(e));
     this.articleDeleted = true;
   }
 }

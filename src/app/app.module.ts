@@ -18,11 +18,11 @@ import { CreateArticleComponent } from './create-article/create-article.componen
 import { ShortArticleString } from "./shortArticle.pipe";
 import { SafeUrlPipe, SafeStylePipe } from "./safeUrl.pipe";
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule } from "@angular/fire/storage";
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireStorageModule } from "angularfire2/storage";
+import { AngularFireAuth } from "angularfire2/auth";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AngularFirestore } from '@angular/fire/firestore';
-
+import { AngularFirestore } from 'angularfire2/firestore';
+import { firebaseconfig } from "./firebaseconfig";
 
 const routes = [
   {path:"", component: HomePageComponent, data: {title: "App - Home"}},
@@ -32,18 +32,6 @@ const routes = [
   {path:"login", component: LoginComponent, data: {title: "Login"}},
   { path: '**', component: PageNotFoundComponent }
 ]
-
-export const firebaseconfig = {
-  apiKey: "AIzaSyDRrg3tH3gldc3ch8KIpgS86pEAQfvNpEk",
-  authDomain: "superiornews-8a712.firebaseapp.com",
-  databaseURL: "https://superiornews-8a712.firebaseio.com",
-  projectId: "superiornews-8a712",
-  storageBucket: "superiornews-8a712.appspot.com",
-  messagingSenderId: "989367579483"
-};
-
-
-
 
 @NgModule({
   declarations: [

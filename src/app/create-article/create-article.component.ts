@@ -84,13 +84,13 @@ export class CreateArticleComponent implements OnInit {
       this.fileList.forEach((f,i) => this.uploadFile(f,i));
     }
     if (this.isNewArticle){
-      this.articleService.postArticle(this.article).subscribe(res => 
-        console.log("OK article created, id:" + res["data"]["_id"])
-      );
+      this.articleService.postArticle(this.article).then(res => 
+        console.log("OK article created, id:" + res.id)
+      ).catch(e => console.log(e));
     } else{
-      this.articleService.updateArticle(this.article).subscribe(res => 
-        console.log("OK article updated, id:" + res["data"]["_id"])
-      );
+      this.articleService.updateArticle(this.article).then(res => 
+        console.log("OK article updated, id:")
+      ).catch(e => console.log(e));
     }
     
   }

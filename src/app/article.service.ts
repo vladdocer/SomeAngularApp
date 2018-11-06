@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Article } from './article'
 import { Observable } from 'rxjs/Observable';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "@angular/fire/firestore";
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentSnapshot } from "angularfire2/firestore";
 import { catchError, map, tap } from 'rxjs/operators';
 
 const httpOptions = {
@@ -25,58 +25,39 @@ export class ArticleService {
     private afs: AngularFirestore
   ) {
     this.articleCollection = this.afs.collection('Article');
-   }
+  }
 
   public getArticles(): Observable<Article[]> {
-    /*return this.http.get(this.articleURL).pipe(
-      map(res => {
-        console.log('fetched articles');
-        return res["data"]["docs"] as Article[]
-      }
-      ));*/
-      console.log(this.articleCollection.valueChanges());
-      return this.articleCollection.valueChanges();
+    return this.articleCollection.snapshotChanges().map(action => {
+      return action.map(a => {
+        const data = a.payload.doc.data() as Article;
+        data._id = a.payload.doc.id;
+        return data;
+      })
+    });
   }
-
 
   public getArticleById(id: String): Observable<Article> {
-    /*const url = `${this.articleURL}/${id}`;
-    return this.http.get(url).pipe(
-      map(res => {
-        return res["data"] as Article
-      })
-    );*/
-    this.articleCollection = this.afs.collection('Article', res => {
-      return res.where('_id', '==', id);
+    return this.articleCollection.doc(id.toString()).snapshotChanges().map(a => {
+        const data = a.payload.data() as Article;
+        data._id = a.payload.id;
+        return data;
     });
-    return this.articleCollection.valueChanges()[0];
   }
-
-  /** POST: add a new hero to the server */
+  /** POST: add a new article to the server */
   public postArticle(article: Article) {
-    try {
-      return this.http.post(`${this.articleURL}`, article);
-    } catch (e) {
-      console.log(e);
-    }
+    return this.afs.collection(config.collection_endpoint).add({
+      pic: article.pic,
+      text: article.text,
+      title: article.title
+    });
   }
 
   public updateArticle(article: Article) {
-    try {
-      return this.http.put(`${this.articleURL}` + "/" + article._id, article);
-    } catch (e) {
-      console.log(e)
-    }
+    return this.articleCollection.doc(article._id).update(article);
   }
 
   public deleteArticle(id: String): any {
-    const url = `${this.articleURL}/${id}`;
-    try {
-      return this.http.delete(url).pipe(map(res => {
-        return res;
-      }));
-    } catch (e) {
-      console.log(e);
-    }
+    return this.articleCollection.doc(id.toString()).delete();
   }
 }
