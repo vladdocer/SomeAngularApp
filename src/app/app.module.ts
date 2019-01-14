@@ -1,3 +1,6 @@
+import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { CommonModule } from '@angular/common';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule} from "@angular/router";
@@ -13,7 +16,6 @@ import { ArticleService } from "./article.service";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./services/auth-guard.service";
 import { HomePageComponent } from './home-page/home-page.component';
-import { ParallaxModule, ParallaxConfig } from '../../node_modules/ngx-parallax';
 import { CreateArticleComponent } from './create-article/create-article.component';
 import { ShortArticleString } from "./shortArticle.pipe";
 import { SafeUrlPipe, SafeStylePipe } from "./safeUrl.pipe";
@@ -23,6 +25,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { firebaseconfig } from "./firebaseconfig";
+import { MaterialModule } from "./material";
 
 const routes = [
   {path:"", component: HomePageComponent, data: {title: "App - Home"}},
@@ -45,10 +48,13 @@ const routes = [
     LoginComponent,
     PageNotFoundComponent
   ],
-  imports: [
-    BrowserModule,
+  imports:[
+    CommonModule,
+    NgtUniversalModule,
+    MaterialModule,
+    TransferHttpCacheModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
-    ParallaxModule,
     FormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseconfig),
@@ -62,7 +68,6 @@ const routes = [
     AngularFireAuth,
     AngularFirestore
   ],
-  bootstrap: [AppComponent]
 })
 
 export class AppModule {

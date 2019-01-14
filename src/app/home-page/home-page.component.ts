@@ -20,8 +20,7 @@ export class HomePageComponent implements OnInit {
 
   getAtricles(): void {
     this.articleService.getArticles().subscribe(
-      articles => {this.articles = articles;
-      console.log(this.articles);}
+      articles => this.articles = articles
     );
   }
   

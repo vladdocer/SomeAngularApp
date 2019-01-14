@@ -6,6 +6,12 @@
         opacity: 1;
     }
 }
+@media screen and (max-width: 414px){
+    #drop-area{
+        display: none;
+        visibility: hidden;
+    } 
+}
 .container {
     padding-bottom: 15px;
     padding-top: 10px;

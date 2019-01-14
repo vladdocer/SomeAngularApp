@@ -4,14 +4,12 @@
     background: #fff;
     z-index: 10;
   }
-
 nav {
   margin-bottom: 30px;
 }
 a {
   max-height: 64px;
 }
-
 .responsive-img {
   width: 100%;
   max-width: 50px;
@@ -49,6 +47,9 @@ a {
   text-align: center;
   line-height: 40px;
   border-top: 1px solid darkgray;
+}
+.navigation a{
+  color: white;
 }
 
 li:hover >div{

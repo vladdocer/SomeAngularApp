@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col s8 m8 l4 offset-m2 offset-s2" *ngFor="let article of articles">
-      <div class="card" >
+      <div class="card">
         <div class="card-image" routerLink="/article/{{article._id}}">
           <img [src]="article.pic|safeUrl" />
           <span class="card-title">{{article.title}}</span>
@@ -10,15 +10,23 @@
           <p>{{article.text | shortArticleString}}</p>
         </div>
         <div class="card-action">
-          <a routerLink="/article/{{article._id}}">Читать</a>
+          <button mat-button>
+            <a routerLink="/article/{{article._id}}">Читать</a>
+          </button>
           <div class="buttonBar" *ngIf="authService.isLoggedIn()">
             <div class="buttonDelete" (click)='deleteArticle(article._id)'>
-              <i class="material-icons">delete</i>
+              <button mat-icon-button color="accent">
+                <a>
+                  <mat-icon aria-label="Delete the article">delete</mat-icon>
+                </a>
+              </button>
             </div>
             <div class="buttonEdit">
-              <a id="buttonEditA" routerLink="/createarticle/{{article._id}}">
-                <i class="material-icons">create</i>
-              </a>
+              <button mat-icon-button color="accent">
+                <a routerLink="/createarticle/{{article._id}}">
+                  <mat-icon aria-label="Edit article">create</mat-icon>
+                </a>
+              </button>
             </div>
           </div>
         </div>
